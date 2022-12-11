@@ -11,7 +11,7 @@ def check_symbolic_links_list():
     with open(SYMBOLIC_APPS_FILE, "r") as symbolic_apps_file:
         line_no = 0
         for symbolic_link_ref in symbolic_apps_file:
-            line_no = line_no+1
+            line_no = line_no + 1
             if " <- " not in symbolic_link_ref:
                 print("Wrong symbolic link reference in line " + str(line_no) + ": " + symbolic_link_ref)
             else:
@@ -23,8 +23,6 @@ def check_symbolic_links_list():
                     CHECK_DIR += "/64"
                 if not os.path.exists(os.path.join(CHECK_DIR, target_svg)):
                     print(target_svg + " does not exist (line " + str(line_no) + ")")
-                    #pass
-
                 create_symbolic_link(target, symlink)
 
 def create_symbolic_link(target, symlink):

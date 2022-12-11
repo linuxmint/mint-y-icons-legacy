@@ -91,13 +91,13 @@ def main(args, SRC):
                     if attr == "context":
                         self.stack.append(self.TEXT)
                         self.inside.append(self.TEXT)
-                        self.text='context'
+                        self.text = 'context'
                         self.chars = ""
                         return
                     if attr == "icon-name":
                         self.stack.append(self.TEXT)
                         self.inside.append(self.TEXT)
-                        self.text='icon-name'
+                        self.text = 'icon-name'
                         self.chars = ""
                         return
                     if name == "rect":
@@ -122,20 +122,19 @@ def main(args, SRC):
                 assert self.icon_name
                 assert self.context
 
-                if self.filter is not None and not self.icon_name in self.filter:
+                if self.filter is not None and self.icon_name not in self.filter:
                     return
 
-                if (self.icon_name != self.file_name):
+                if self.icon_name != self.file_name:
                     print(f"icon name in {self.file_name} is wrong: {self.icon_name}")
                     sys.exit(1)
                 for rect in self.rects:
                     for dpi_factor in DPIS:
                         width = rect['width']
-                        height = rect['height']
                         id = rect['id']
                         dpi = DPI_1_TO_1 * dpi_factor
 
-                        size_str = "%s" % (width)
+                        size_str = "%s" % width
                         if dpi_factor != 1:
                             size_str += "@%sx" % dpi_factor
 
@@ -147,19 +146,13 @@ def main(args, SRC):
                         if self.force or not os.path.exists(outfile):
                             print (self.context, self.icon_name, self.file_name)
                             inkscape_render_rect(self.path, id, dpi, outfile)
-                            #sys.stdout.write('.')
                         else:
                             stat_in = os.stat(self.path)
                             stat_out = os.stat(outfile)
                             if stat_in.st_mtime > stat_out.st_mtime:
                                 print (self.context, self.icon_name, self.file_name)
                                 inkscape_render_rect(self.path, id, dpi, outfile)
-                                #sys.stdout.write('.')
-                            #else:
-                            #    sys.stdout.write('-')
                         sys.stdout.flush()
-                #sys.stdout.write('\n')
-                #sys.stdout.flush()
 
         def characters(self, chars):
             self.chars += chars.strip()
